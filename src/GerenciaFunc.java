@@ -8,7 +8,7 @@ public class GerenciaFunc extends AVLTree<Funcionario>  {
              this.inserir(funcionario);
         }else{
             System.out.println("Funcionário já existe");
-            inserir(funcionario);
+            inserirFuncionario(funcionario);
         }
         
 
