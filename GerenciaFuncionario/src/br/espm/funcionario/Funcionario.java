@@ -8,9 +8,10 @@ public class Funcionario implements Comparable<Funcionario> {
     private Cargo cargo;
     
 
-    public Funcionario(String nome, int cargo) {
+    public Funcionario(String nome, Cargo cargo) {
         this.id = gerarId();
         this.nome = nome;
+        this.cargo = cargo;
     }
 
     private int gerarId() {
@@ -42,7 +43,6 @@ public class Funcionario implements Comparable<Funcionario> {
     public void setCargo(Cargo cargo) {
         this.cargo = cargo;
     }
-
     @Override
     public String toString(){
         return this.getNome() +"\n" + this.getId();
