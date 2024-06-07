@@ -14,7 +14,13 @@ public class Funcionario implements Comparable<Funcionario> {
         this.cargo = cargo;
     }
 
-    private int gerarId() {
+    public Funcionario(Integer id, String nome, Cargo cargo) {
+        this.id = id;
+        this.nome = nome;
+        this.cargo = cargo;
+    }
+
+    public int gerarId() {
         Random gerador = new Random();
         int numAle = 1000 + gerador.nextInt(8999);
         return numAle;
@@ -45,13 +51,13 @@ public class Funcionario implements Comparable<Funcionario> {
     }
     @Override
     public String toString(){
-        return this.getNome() +"\n" + this.getId();
+        return "ID: "+this.getId()+"\n" + 
+        "Nome: " + this.getNome() +"\n" 
+        + "Cargo: "+this.getCargo()+"\n";
     }
     @Override
     public int compareTo(Funcionario outroFunc) {
-        
         return Integer.compare(this.getId(), outroFunc.getId());
-       
     }
     @Override
     public boolean equals(Object obj) {
@@ -59,6 +65,20 @@ public class Funcionario implements Comparable<Funcionario> {
             && (obj instanceof Funcionario)
             && ((Funcionario) obj).getId() == id;
     }
+
+    public void setCargo(String cargo) {
+        if (cargo.equals("ATENDENTE")) {
+            this.cargo = Cargo.ATENDENTE;
+        }else{
+            if (cargo.equals("VENDEDOR")) {
+                this.cargo = Cargo.VENDEDOR;
+            }else if (cargo.equals("GERENTE")) {
+                this.cargo = Cargo.GERENTE;
+            }
+        }
+    }
+
+   
 
     
     

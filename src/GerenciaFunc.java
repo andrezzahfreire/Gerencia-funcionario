@@ -1,17 +1,17 @@
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+
+import javax.swing.*;
+
 import br.espm.funcionario.Cargo;
 import br.espm.funcionario.Funcionario;
 
 public class GerenciaFunc extends AVLTree<Funcionario>  {
     public void inserirFuncionario(Funcionario funcionario){
-        
-        if (pesquisarFunc(funcionario.getId()) == null ) {
-             this.inserir(funcionario);
-        }else{
-            System.out.println("Funcionário já existe");
-            inserirFuncionario(funcionario);
-        }
-        
-
+        this.inserir(funcionario);
     }
 
     public String Listarfunc(){
@@ -21,13 +21,15 @@ public class GerenciaFunc extends AVLTree<Funcionario>  {
     public Funcionario pesquisarFunc(int id) {
         Funcionario func = new Funcionario(null, null);
         func.setId(id);
-
-        try {
-            func =  this.pesquisar(func).getDado();
-        } catch (Exception e) {
-            System.out.println("Funcionario não encontrado");
+        if (func != null) {
+            try {
+                func =  this.pesquisar(func).getDado();
+                return func;
+            } catch (Exception e) {
+                System.out.println("funcionario não encontrado");     
+            }
         }
-        return func;
+        return null;
 
     }
 
@@ -37,9 +39,8 @@ public class GerenciaFunc extends AVLTree<Funcionario>  {
 
         try {
             this.remover(func);
-            System.out.println("Funcionário excluido com sucesso");
         } catch (Exception e) {
-            System.out.println("Erro ao excluir o funcionário");
+            JOptionPane.showMessageDialog(null, "Funcionário não existente", "Remover Funcionário", JOptionPane.INFORMATION_MESSAGE);
         }
     }
 
@@ -52,6 +53,56 @@ public class GerenciaFunc extends AVLTree<Funcionario>  {
             func.setCargo(cargo); 
         
         //overload
+    }
+
+    public void LerDadosArquivo(){
+        String caminho = "venda.txt";
+        BufferedReader br = null;
+        FileReader fr = null;
+
+        try {
+            fr = new FileReader(caminho);
+            br = new BufferedReader(fr);
+            String linha;
+            System.out.println("Valores de Vendas:");
+            while ((linha = br.readLine()) != null) {
+            // Converte a linha lida para o tipo double e imprime
+            double valorVenda = Double.parseDouble(linha);
+            System.out.println(valorVenda);
+            }
+            } catch (IOException e) {
+            System.err.println("Erro ao ler o arquivo: " + e.getMessage());
+            } catch (NumberFormatException e) {
+            System.err.println("Erro ao converter valor para double: " + e.getMessage());
+            }
+            finally {
+                try {
+                if (br != null) {
+                br.close();
+                }
+                if (fr != null) {
+                fr.close();
+                }
+                } catch (IOException ex) {
+                System.err.println("Erro ao fechar o arquivo: " + ex.getMessage());
+                }
+                }
+                
+            
+    }
+
+    public void GravarDadosArquivo(){
+        String path = "vendas.txt";
+        double[] vendas = {259.99, 499.50, 123.45, 987.65};
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(path))) {
+        for (double venda : vendas) {
+        bw.write(Double.toString(venda));
+        bw.newLine(); // Adiciona uma quebra de linha após cada venda
+        }
+        } catch (IOException e) {
+        System.err.println("Erro ao escrever no arquivo: " + e.getMessage());
+        }
+
     }
 
     
